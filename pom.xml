@@ -10,19 +10,20 @@
 
     <properties>
         <selenium-java.version>3.141.59</selenium-java.version>
-        <junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
+        <junit.jupiter.version>5.4.2</junit.jupiter.version>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium-java.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.jupiter.version}</version>
         </dependency>
     </dependencies>
 </project>
