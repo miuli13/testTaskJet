@@ -1,13 +1,14 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MainPage extends PageObject{
+class MainPage extends PageObject {
 
-    MainPage(WebDriver driver){
+    MainPage(WebDriver driver) {
         super(driver);
-        assert searchField.isEnabled();
+        assert searchField.isDisplayed();
     }
 
     @FindBy(id = "text")
@@ -16,15 +17,17 @@ public class MainPage extends PageObject{
     @FindBy(xpath = "//div[contains(@class, 'suggest2__content suggest2__content_theme_normal')]/li[1]")
     private WebElement firstMatch;
 
-    public void enterSearchRequest(String searchRequest){
+    void enterSearchRequest(String searchRequest) {
         this.searchField.clear();
         this.searchField.sendKeys(searchRequest);
-        assert firstMatch.isDisplayed();
+        assert this.firstMatch.isDisplayed();
     }
 
-    public String getTextFromFirstMatch(){
-        this.firstMatch.findElement(By.xpath("span[1]"));
-        //todo
-        return null;
+    String getTextFromFirstMatch() {
+        String result = this.firstMatch.findElement(By.xpath("span[1]")).getText();
+        try {
+            result = result.concat(" ").concat(" ").concat(this.firstMatch.findElement(By.xpath("span[3]")).getText());
+        } catch (NoSuchElementException e) {}
+        return result;
     }
 }

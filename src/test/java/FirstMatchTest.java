@@ -1,32 +1,25 @@
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-public class FirstMatchTest {
+class FirstMatchTest {
     private static WebDriver driver;
-
+    private static MainPage mainPage;
     @BeforeAll
     static void setUp() {
         System.setProperty("webdriver.chrome.driver", "/usr/lib/chromium-browser/chromedriver");
         driver = new ChromeDriver();
         driver.get("https://yandex.ru/");
+        mainPage = new MainPage(driver);
     }
 
-    @Test
-    void test() {
-        MainPage mainPage = new MainPage(driver);
-        mainPage.enterSearchRequest("погода");
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        driver.findElement(By.xpath("//div[contains(@class, 'suggest2__content suggest2__content_theme_normal')]"));
-
-
+    @ParameterizedTest
+    @ValueSource(strings = {"погода", "Липецк", "Лото"})
+    void parseFirstMatch(String searchField) {
+        mainPage.enterSearchRequest(searchField);
+        System.out.println(mainPage.getTextFromFirstMatch());
     }
 
     @AfterAll
